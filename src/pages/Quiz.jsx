@@ -6,42 +6,48 @@ import { MultichoiceQuestion } from '../components/question_card/multichoiceQues
 import { DataQuizsContext } from '../store/DataQuizsContext';
 import { createAnswers } from '../utils/createAnswers';
 import { Link } from 'react-router-dom';
+
 function TestLayout() {
     const context = useContext(DataQuizsContext);
     const [isFinal, setIsFinal] = useState(false);
     const [statusLoading, setStatusLoading] = useState(true);
     const [id, setId] = useState(0);
-    const [answers, setAnswer] = useState([]);
+    const [answers, setAnswers] = useState([]);
+
     const next = () => {
         setId((prevId) => prevId + 1);
     };
-    useEffect(() => {
-        if (context.quizsDatas?.data?.length !== 0) {
-            setStatusLoading(false);
-        }
-    }, [context.quizsDatas]);
 
     useEffect(() => {
         if (context.quizsDatas?.data?.length !== 0) {
-            console.log(context.quizsDatas?.data);
+            setStatusLoading(false);
+            console.log(context.quizsDatas);
+        }
+    }, [context?.quizsDatas?.data]);
+
+    useEffect(() => {
+        if (context.quizsDatas?.data?.length !== 0) {
             const answers = createAnswers(
                 context.quizsDatas?.data[id]?.incorrect_answers,
                 context.quizsDatas?.data[id]?.correct_answer,
             );
-            setAnswer(answers);
+            setAnswers(answers);
         }
-    }, [id, context.quizsDatas]);
+    }, [id, context.quizsDatas?.data]);
 
     useEffect(() => {
-        if (id + 1 > context.quizsDatas?.data?.length && context.quizsDatas?.data?.length !== 0) setIsFinal(true);
+        if (id + 1 > context.quizsDatas?.data?.length && context.quizsDatas?.data?.length !== 0) {
+            setIsFinal(true);
+        }
     }, [id]);
+
     return (
-        <div className="w-screen min-h-screen pt-20 ">
+        <div className="w-screen min-h-screen pt-20">
             {statusLoading ? (
                 <QuizBumpElement width={500} height={500}></QuizBumpElement>
             ) : (
-                <AnimatePresence className>
-                    <div className="w-full h-full flex flex-col items-center ">
+                <AnimatePresence>
+                    <div className="w-full h-full flex flex-col items-center">
                         <h1 className="font-medium text-3xl mb-20">SIPO QUIZ</h1>
                         <div>
                             {isFinal ? (
@@ -50,7 +56,7 @@ function TestLayout() {
                                         <div>
                                             <h1 className="text-3xl font-medium mb-4">Kết quả</h1>
                                             <p className="text-8xl">
-                                                {`${context.countCorrect} / ${context.quizsDatas?.data.length}`}
+                                                {`${context.quizsDatas?.countCorrect} / ${context.quizsDatas?.data.length}`}
                                             </p>
                                         </div>
                                         <Link to={'/'} className="w-fit px-8 py-3 border border-gray-300 rounded-md">
