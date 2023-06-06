@@ -1,11 +1,11 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import GetTestErrorElement from '../components/animatedElements/getTestErrorElement';
+import QuizBumpElement from '../components/animatedElements/QuizBumpElement';
 import CongratsElement from '../components/animatedElements/congratsElement';
 import { MultichoiceQuestion } from '../components/question_card/multichoiceQuestion';
 import { DataQuizsContext } from '../store/DataQuizsContext';
 import { createAnswers } from '../utils/createAnswers';
-
+import { Link } from 'react-router-dom';
 function TestLayout() {
     const context = useContext(DataQuizsContext);
     const [isFinal, setIsFinal] = useState(false);
@@ -14,25 +14,22 @@ function TestLayout() {
     const next = () => {
         setId((prevId) => prevId + 1);
     };
+    useEffect(() => {
+        if (context.quizsDatas.length !== 0) {
+            setStatusLoading(false);
+        }
+    }, [context.quizsDatas]);
 
     return (
-        <>
+        <div className="w-screen min-h-screen flex flex-col items-center mt-20">
             {statusLoading ? (
+                <QuizBumpElement width={500} height={500}></QuizBumpElement>
+            ) : (
                 <AnimatePresence>
-                    <div className="w-screen min-h-screen flex flex-col items-center mt-20">
+                    <div className="w-screen min-h-screen flex flex-col items-center ">
                         <h1 className="font-medium text-3xl mb-20">Bài kiểm tra</h1>
                         <div>
-                            <MultichoiceQuestion
-                                id={id}
-                                key={id}
-                                question={context.quizsDatas[id]?.question}
-                                userAnswer={context.quizsDatas[id]?.userAnswer}
-                                answers={createAnswers(context.quizsDatas[id]?.incorrect_answers, context.quizsDatas[id]?.correct_answer)}
-                                updateNumberCorrect={undefined}
-                                title={`Câu ${1+id}`}
-                                next={next}
-                            />
-                            {isFinal && (
+                            {isFinal ? (
                                 <div className="flex flex-row space-x-4">
                                     <div className="flex flex-col space-y-16 pt-10">
                                         <div>
@@ -42,7 +39,7 @@ function TestLayout() {
                                             </p>
                                         </div>
                                         <Link
-                                            href={'/dashboard'}
+                                            to={'/dashboard'}
                                             className="w-fit px-8 py-3 border border-gray-300 rounded-md"
                                         >
                                             {' '}
@@ -53,14 +50,26 @@ function TestLayout() {
                                         <CongratsElement width={400} height={400}></CongratsElement>
                                     </div>
                                 </div>
+                            ) : (
+                                <MultichoiceQuestion
+                                    id={id}
+                                    key={id}
+                                    question={context.quizsDatas[id]?.question}
+                                    userAnswer={context.quizsDatas[id]?.userAnswer}
+                                    answers={createAnswers(
+                                        context.quizsDatas[id]?.incorrect_answers,
+                                        context.quizsDatas[id]?.correct_answer,
+                                    )}
+                                    updateNumberCorrect={undefined}
+                                    title={`Câu ${1 + id}`}
+                                    next={next}
+                                />
                             )}
                         </div>
                     </div>
                 </AnimatePresence>
-            ) : (
-                <GetTestErrorElement width={500} height={500}></GetTestErrorElement>
             )}
-        </>
+        </div>
     );
 }
 

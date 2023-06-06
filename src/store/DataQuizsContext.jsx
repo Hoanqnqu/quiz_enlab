@@ -17,8 +17,8 @@ function DataQuizsProvider({ children }) {
         console.log(countAnwser);
     }, [countAnwser]);
     useEffect(() => {
-        addQuizsData();
-        console.log('1');
+        // addQuizsData();
+        // console.log('1');
     }, []);
 
     const getNewTestService = async () => {

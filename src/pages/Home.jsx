@@ -1,6 +1,11 @@
+import { Link } from 'react-router-dom';
 import StudentsElement from '../components/animatedElements/studentsElement';
+import { useContext } from 'react';
+import { DataQuizsContext } from '../store/DataQuizsContext';
 
 const Home = () => {
+    const context = useContext(DataQuizsContext);
+
     return (
         <>
             <title>Sipo English</title>
@@ -9,9 +14,13 @@ const Home = () => {
                     <h1 className="text-6xl font-semibold text-zinc-800">Sipo Quiz</h1>
 
                     <div className="mt-10 flex flex-row justify-center space-x-4">
-                        <button className="w-fit px-8 py-3 border border-gray-300 rounded-md hover:bg-zinc-100">
+                        <Link
+                            to="/quiz"
+                            onClick={()=>context.addQuizsData()}
+                            className="w-fit px-8 py-3 border border-gray-300 rounded-md hover:bg-zinc-100"
+                        >
                             Dùng ngay
-                        </button>
+                        </Link>
                     </div>
                 </div>
                 <div className="lg:visible md:invisible rounded-full">
