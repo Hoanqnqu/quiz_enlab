@@ -4,18 +4,12 @@ import axiosConfig from '../axiosConfig';
 const DataQuizsContext = createContext({});
 
 function DataQuizsProvider({ children }) {
-    const [quizsDatas, setQuizsDatas] = useState([]);
+    const [quizsDatas, setQuizsDatas] = useState({data:[]});
     const [countAnwser, setCountAnwser] = useState(0);
     const [countCorrect, setCountCorrect] = useState(0);
-    useEffect(() => {
-        if (quizsDatas.length > 0) {
-            const startTime = new Date();
-            quizsDatas[0].start_time = startTime;
-            console.log(startTime);
-        }
-    }, [quizsDatas]);
+
     const getNewTestService = async () => {
-        setQuizsDatas([]);
+        setQuizsDatas({data:[]});
         try {
             const res = await axiosConfig.get('/api.php?amount=5');
             return res;
@@ -25,20 +19,20 @@ function DataQuizsProvider({ children }) {
     };
     async function addQuizsData() {
         const result = await getNewTestService();
-
+        const startTime = new Date();
+            console.log(startTime);
         if (result?.data?.results.length > 0) {
-            setQuizsDatas(result?.data?.results);
+            setQuizsDatas({data:result?.data?.results,start_time:startTime });
         }
-        return result?.data?.results;
     }
 
     async function updateQuestionById(index, userAnwser) {
-        quizsDatas[index].user_answer = userAnwser;
-        console.log(quizsDatas[index].user_answer, index);
+        quizsDatas.data[index].user_answer = userAnwser;
+        console.log(quizsDatas.data[index].user_answer, index);
         setCountAnwser((countAnwser) => countAnwser + 1);
-        if (quizsDatas[index].user_answer === quizsDatas[index].correct_answer) {
+        if (quizsDatas.data[index].user_answer === quizsDatas.data[index].correct_answer) {
             setCountCorrect((countCorrect) => countCorrect + 1);
-            console.log(quizsDatas[index].user_answer, quizsDatas[index].correct_answer);
+            console.log(quizsDatas.data[index].user_answer, quizsDatas.data[index].correct_answer);
         }
     }
     const contextValue = {

@@ -16,23 +16,24 @@ function TestLayout() {
         setId((prevId) => prevId + 1);
     };
     useEffect(() => {
-        if (context.quizsDatas.length !== 0) {
+        if (context.quizsDatas?.data?.length !== 0) {
             setStatusLoading(false);
         }
     }, [context.quizsDatas]);
 
     useEffect(() => {
-        if (context.quizsDatas.length !== 0) {
+        if (context.quizsDatas?.data?.length !== 0) {
+            console.log(context.quizsDatas?.data);
             const answers = createAnswers(
-                context.quizsDatas[id]?.incorrect_answers,
-                context.quizsDatas[id]?.correct_answer,
+                context.quizsDatas?.data[id]?.incorrect_answers,
+                context.quizsDatas?.data[id]?.correct_answer,
             );
             setAnswer(answers);
         }
     }, [id, context.quizsDatas]);
 
     useEffect(() => {
-        if (id + 1 > context.quizsDatas.length && context.quizsDatas.length !== 0) setIsFinal(true);
+        if (id + 1 > context.quizsDatas?.data?.length && context.quizsDatas?.data?.length !== 0) setIsFinal(true);
     }, [id]);
     return (
         <div className="w-screen min-h-screen pt-20 ">
@@ -49,7 +50,7 @@ function TestLayout() {
                                         <div>
                                             <h1 className="text-3xl font-medium mb-4">Kết quả</h1>
                                             <p className="text-8xl">
-                                                {`${context.countCorrect} / ${context.quizsDatas.length}`}
+                                                {`${context.countCorrect} / ${context.quizsDatas?.data.length}`}
                                             </p>
                                         </div>
                                         <Link to={'/'} className="w-fit px-8 py-3 border border-gray-300 rounded-md">
@@ -64,11 +65,11 @@ function TestLayout() {
                                 <MultichoiceQuestion
                                     id={id}
                                     key={id}
-                                    question={context.quizsDatas[id]?.question}
-                                    userAnswer={context.quizsDatas[id]?.userAnswer}
+                                    question={context.quizsDatas?.data[id]?.question}
+                                    userAnswer={context.quizsDatas?.data[id]?.userAnswer}
                                     answers={answers}
                                     updateNumberCorrect={undefined}
-                                    title={`Question ${1 + id}/${context.quizsDatas.length}`}
+                                    title={`Question ${1 + id}/${context.quizsDatas?.data.length}`}
                                     next={next}
                                 />
                             )}
