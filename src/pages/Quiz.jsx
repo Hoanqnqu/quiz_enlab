@@ -11,6 +11,7 @@ function TestLayout() {
     const [isFinal, setIsFinal] = useState(false);
     const [statusLoading, setStatusLoading] = useState(true);
     const [id, setId] = useState(0);
+    const [answers, setAnswer] = useState([]);
     const next = () => {
         setId((prevId) => prevId + 1);
     };
@@ -20,14 +21,27 @@ function TestLayout() {
         }
     }, [context.quizsDatas]);
 
+    useEffect(() => {
+        if (context.quizsDatas.length !== 0) {
+            const answers = createAnswers(
+                context.quizsDatas[id]?.incorrect_answers,
+                context.quizsDatas[id]?.correct_answer,
+            );
+            setAnswer(answers);
+        }
+    }, [id, context.quizsDatas]);
+
+    useEffect(() => {
+        if (id + 1 > context.quizsDatas.length && context.quizsDatas.length !== 0) setIsFinal(true);
+    }, [id]);
     return (
-        <div className="w-screen min-h-screen flex flex-col items-center mt-20">
+        <div className="w-screen min-h-screen pt-20 ">
             {statusLoading ? (
                 <QuizBumpElement width={500} height={500}></QuizBumpElement>
             ) : (
-                <AnimatePresence>
-                    <div className="w-screen min-h-screen flex flex-col items-center ">
-                        <h1 className="font-medium text-3xl mb-20">Bài kiểm tra</h1>
+                <AnimatePresence className>
+                    <div className="w-full h-full flex flex-col items-center ">
+                        <h1 className="font-medium text-3xl mb-20">SIPO QUIZ</h1>
                         <div>
                             {isFinal ? (
                                 <div className="flex flex-row space-x-4">
@@ -35,15 +49,11 @@ function TestLayout() {
                                         <div>
                                             <h1 className="text-3xl font-medium mb-4">Kết quả</h1>
                                             <p className="text-8xl">
-                                                {/* {`${context.countCorrect} / ${context.testsDatas.length}`} */}
+                                                {`${context.countCorrect} / ${context.quizsDatas.length}`}
                                             </p>
                                         </div>
-                                        <Link
-                                            to={'/dashboard'}
-                                            className="w-fit px-8 py-3 border border-gray-300 rounded-md"
-                                        >
-                                            {' '}
-                                            Về trang chính
+                                        <Link to={'/'} className="w-fit px-8 py-3 border border-gray-300 rounded-md">
+                                            Home
                                         </Link>
                                     </div>
                                     <div>
@@ -56,12 +66,9 @@ function TestLayout() {
                                     key={id}
                                     question={context.quizsDatas[id]?.question}
                                     userAnswer={context.quizsDatas[id]?.userAnswer}
-                                    answers={createAnswers(
-                                        context.quizsDatas[id]?.incorrect_answers,
-                                        context.quizsDatas[id]?.correct_answer,
-                                    )}
+                                    answers={answers}
                                     updateNumberCorrect={undefined}
-                                    title={`Câu ${1 + id}`}
+                                    title={`Question ${1 + id}/${context.quizsDatas.length}`}
                                     next={next}
                                 />
                             )}

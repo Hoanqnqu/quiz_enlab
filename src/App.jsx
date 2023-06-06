@@ -5,7 +5,7 @@ import { DataQuizsProvider } from './store/DataQuizsContext';
 function App() {
     return (
         <DataQuizsProvider>
-            <div className="flex min-h-screen min-w-screen items-center flex-col px-10 pt-0 pb-40">
+            <div className="flex min-h-screen min-w-screen items-center flex-col px-10 pt-0 ">
                 <BrowserRouter className="w-full">
                     <Routes className="max-w-[1200px] m-auto">
                         <Route path={path.HOME} element={<Home />} />

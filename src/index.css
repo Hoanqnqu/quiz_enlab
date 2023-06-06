@@ -1,7 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+body {
+    overflow: hidden;
+  }
+  
 @layer components {
     .questionCard {
         @apply flex flex-col p-10 rounded-xl border space-y-4;

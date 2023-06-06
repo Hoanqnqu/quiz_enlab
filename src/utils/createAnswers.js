@@ -8,6 +8,5 @@ export const createAnswers = (incorrectAnswers, correctAnswer) => {
         const j = Math.floor(Math.random() * (i + 1));
         [shuffledAnswers[i], shuffledAnswers[j]] = [shuffledAnswers[j], shuffledAnswers[i]];
     }
-
     return shuffledAnswers;
 };

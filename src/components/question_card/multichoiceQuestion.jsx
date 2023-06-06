@@ -4,36 +4,32 @@ import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { motion } from 'framer-motion';
 import { ToastContainerCustom, toast } from '../../utils/ToastCustom';
 import { PrimaryButton } from '../button/index';
-// import { DataTestsContext } from '../../store/DataTestsContext';
+import { DataQuizsContext } from '../../store/DataQuizsContext';
 
-function MultichoiceQuestion({ title = 'Full text question', question, answers, id, updateNumberCorrect, userAnswer , next}) {
+function MultichoiceQuestion({
+    title = 'Full text question',
+    question,
+    answers,
+    id,
+    updateNumberCorrect,
+    userAnswer,
+    next,
+}) {
     const [chosenIndex, setChosenIndex] = useState(-1);
     const [checked, setChecked] = useState(false);
-
+    const context = useContext(DataQuizsContext);
+  
     const checkButtonOnclick = () => {
+       
         if (chosenIndex == -1) {
             return toast.error('Please choose the answer!');
         }
-
         setChecked(true);
-        // context.updateQuestionById(+id, chosenIndex);
-        if (answers[chosenIndex]?.isSolution) {
-            // if (typeof updateNumberCorrect == 'function') {
-            //     updateNumberCorrect((prevNum) => prevNum + 1);
-            // }
-            // updateNumberCorrect((prevNum) => prevNum + 1);
-            // toast.success('Yeahhhh! Keep going')
-        } else {
-            // toast.error("Oh no! It's wrong")
-        }
+        context.updateQuestionById(+id, answers[chosenIndex].text);
     };
-    useEffect(() => {
-        if (userAnswer) {
-            setChosenIndex(+userAnswer);
-            setChecked(true);
-        }
-    }, []);
+
     const getLabel = (index) => {
+      
         if (checked && index == chosenIndex && !answers[index].isSolution) {
             return 'incorrect';
         } else if (checked && answers[index].isSolution) {
