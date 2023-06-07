@@ -6,21 +6,21 @@ import { ToastContainerCustom, toast } from '../../utils/ToastCustom';
 import { PrimaryButton } from '../button/index';
 import { DataQuizsContext } from '../../store/DataQuizsContext';
 
-function MultichoiceQuestion({
-    title = 'Full text question',
-    question,
-    answers,
-    id,
-    updateNumberCorrect,
-    userAnswer,
-    next,
-}) {
+function MultichoiceQuestion({ title = 'Full text question', question, answers, id, userAnswer, next }) {
+    console.log(answers);
     const [chosenIndex, setChosenIndex] = useState(-1);
+    console.log(answers, chosenIndex);
+
     const [checked, setChecked] = useState(false);
     const context = useContext(DataQuizsContext);
-  
+    useEffect(() => {
+        if (userAnswer) {
+            setChecked(true);
+            setChosenIndex(answers.findIndex((ans) => ans.text.trim() == userAnswer.trim()));
+        }
+    }, []);
+
     const checkButtonOnclick = () => {
-       
         if (chosenIndex == -1) {
             return toast.error('Please choose the answer!');
         }
@@ -29,7 +29,6 @@ function MultichoiceQuestion({
     };
 
     const getLabel = (index) => {
-      
         if (checked && index == chosenIndex && !answers[index].isSolution) {
             return 'incorrect';
         } else if (checked && answers[index].isSolution) {
@@ -53,7 +52,6 @@ function MultichoiceQuestion({
                     <p>{title}</p>
                 </div>
                 <p className="text-lg font-bold">{question}</p>
-                {/* {hint && <p className="italic">Hint: {hint}</p>} */}
             </div>
 
             <div className="flex flex-col w-full space-y-2">

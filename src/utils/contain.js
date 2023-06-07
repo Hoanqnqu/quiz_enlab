@@ -1,5 +1,6 @@
 export const path = {
     HOME: '/*',
-    HISTORY: 'history',
+    HISTORY_DETAIL: 'history/:id',
+    HISTORY:'history',
     QUIZ:'quiz'
 };

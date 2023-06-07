@@ -97,9 +97,9 @@ function TestLayout() {
                                                 Home
                                             </Link>
                                             <Link
-                                                to="/history"
+                                                to="/history/0"
                                                 onClick={() => {
-                                                    context.resetComfirm(false);
+                                                    context.resetComfirm();
                                                 }}
                                                 className="w-fit px-8 py-3 border border-gray-300 rounded-md hover:bg-zinc-100"
                                             >
@@ -113,7 +113,6 @@ function TestLayout() {
                                     id={id}
                                     key={id}
                                     question={context.quizsData?.data[id]?.question}
-                                    userAnswer={context.quizsData?.data[id]?.userAnswer}
                                     answers={answers}
                                     updateNumberCorrect={undefined}
                                     title={`Question ${1 + id}/${context.quizsData?.data.length}`}
