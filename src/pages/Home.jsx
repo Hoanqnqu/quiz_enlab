@@ -20,7 +20,7 @@ const Home = () => {
                             <Link
                                 to="/quiz"
                                 onClick={() => {
-                                    context.resetComfirm();
+                                    context.resetComfirm(false);
                                 }}
                                 className="w-fit px-8 py-3 border border-gray-300 rounded-md hover:bg-zinc-100"
                             >
@@ -48,7 +48,7 @@ const Home = () => {
                         <div className="mt-20 flex flex-row justify-center space-x-4">
                             <Link
                                 to="/quiz"
-                                onClick={() => context.addQuizsData()}
+                                // onClick={() => context.addQuizsData()}
                                 className="w-fit px-8 py-3 border border-gray-300 rounded-md hover:bg-zinc-100"
                             >
                                 Start Quiz!

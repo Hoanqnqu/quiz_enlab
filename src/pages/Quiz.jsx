@@ -2,7 +2,9 @@ import React, { useEffect, useContext, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import QuizBumpElement from '../components/animatedElements/QuizBumpElement';
 import CongratsElement from '../components/animatedElements/congratsElement';
+import SadElement from '../components/animatedElements/sadElement';
 import { MultichoiceQuestion } from '../components/question_card/multichoiceQuestion';
+
 import { DataQuizsContext } from '../store/DataQuizsContext';
 import { createAnswers } from '../utils/createAnswers';
 import { Link } from 'react-router-dom';
@@ -12,17 +14,27 @@ function TestLayout() {
     const context = useContext(DataQuizsContext);
     const [isFinal, setIsFinal] = useState(false);
     const [statusLoading, setStatusLoading] = useState(true);
-    const [id, setId] = useState(0);
+    const [id, setId] = useState(context?.restoreQuizsDataFromLocalStorage()?.countAnswer || 0);
     const [answers, setAnswers] = useState([]);
 
     const next = () => {
         setId((prevId) => prevId + 1);
     };
+    useEffect(() => {
+        if (
+            context?.restoreQuizsDataFromLocalStorage()?.data?.length === 0 ||
+            context?.restoreQuizsDataFromLocalStorage()?.data.length ===
+                context?.restoreQuizsDataFromLocalStorage()?.countAnswer
+        ) {
+            console.log(context?.restoreQuizsDataFromLocalStorage()?.data, context?.quizsData?.data);
+            context.addQuizsData();
+            setId(0);
+        }
+    }, []);
 
     useEffect(() => {
         if (context.quizsData?.data?.length !== 0) {
             setStatusLoading(false);
-            console.log(context.quizsData);
         }
     }, [context?.quizsData?.data]);
 
@@ -52,26 +64,48 @@ function TestLayout() {
                         <h1 className="font-medium text-3xl mb-20">SIPO QUIZ</h1>
                         <div>
                             {isFinal ? (
-                                <div className="flex flex-row space-x-4">
-                                    <div className="flex flex-col space-y-16 pt-10">
-                                        <div>
-                                            <h1 className="text-3xl font-medium mb-4">Kết quả</h1>
-                                            <p className="text-3xl">
-                                                {`${context.quizsData?.countCorrect} / ${context.quizsData?.data.length}`}
-                                            </p>
-                                            <p className="text-3xl">
-                                                {`${getDuration(
-                                                    context.quizsData?.start_time,
-                                                    context.quizsData?.end_time,
-                                                )}`}
-                                            </p>
-                                        </div>
-                                        <Link to={'/'} className="w-fit px-8 py-3 border border-gray-300 rounded-md">
-                                            Home
-                                        </Link>
+                                <div className="flex flex-row flex-wrap justify-around items-center  gap-y-10">
+                                    <div className="rounded-full">
+                                        {context.quizsData?.countCorrect / context.quizsData?.data.length >= 0.5 ? (
+                                            <CongratsElement width={300} height={300}></CongratsElement>
+                                        ) : (
+                                            <SadElement width={300} height={300}></SadElement>
+                                        )}
                                     </div>
-                                    <div>
-                                        <CongratsElement width={400} height={400}></CongratsElement>
+                                    <div className="max-w-[300px]">
+                                        <h2 className="text-4xl text-center font-bold mb-6 ">
+                                            {context.quizsData?.countCorrect / context.quizsData?.data.length >= 0.5
+                                                ? 'Congratulations!!'
+                                                : 'Completed!'}
+                                        </h2>
+                                        <p className="text-2xl text-center text-gray-800">
+                                            {`${context.quizsData?.countCorrect} / ${
+                                                context.quizsData?.data.length
+                                            } correct answer in ${getDuration(
+                                                context.quizsData?.start_time,
+                                                context.quizsData?.end_time,
+                                            )}`}
+                                        </p>
+                                        <div className="mt-14 flex flex-row justify-center space-x-4">
+                                            <Link
+                                                to={'/'}
+                                                onClick={() => {
+                                                    context.resetQuizsData();
+                                                }}
+                                                className="w-fit px-8 py-3 border border-gray-300 rounded-md hover:bg-zinc-100"
+                                            >
+                                                Home
+                                            </Link>
+                                            <Link
+                                                to="/history"
+                                                onClick={() => {
+                                                    context.resetComfirm(false);
+                                                }}
+                                                className="w-fit px-8 py-3 border border-gray-300 rounded-md hover:bg-zinc-100"
+                                            >
+                                                Review
+                                            </Link>
+                                        </div>
                                     </div>
                                 </div>
                             ) : (

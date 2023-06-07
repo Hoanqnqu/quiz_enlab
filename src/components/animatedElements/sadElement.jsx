@@ -1,8 +1,8 @@
 import React from 'react';
 import Lottie from 'react-lottie';
-import animationData from '../../assets/academic-hut-banner.json';
+import animationData from '../../assets/sad.json';
 
-export default function HutBannerElement({ width = 130, height = 130 }) {
+export default function SadElement({ width = 130, height = 130 }) {
     const defaultOptions = {
         loop: true,
         autoplay: true,

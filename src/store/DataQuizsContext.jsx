@@ -4,15 +4,16 @@ import axiosConfig from '../axiosConfig';
 const DataQuizsContext = createContext({});
 
 function DataQuizsProvider({ children }) {
-    const [quizsData, setQuizsData] = useState({ data: [], countAnwser: 0, countCorrect: 0 });
+    const [quizsData, setQuizsData] = useState({ data: [], countAnswer: 0, countCorrect: 0 });
     const [quizsDataArray, setQuizsDataArray] = useState([]);
     const [isComfirm, setIsComfirm] = useState(false);
+
     useEffect(() => {
         setQuizsDataArray(restoreQuizsDataArrayFromLocalStorage());
     }, []);
 
     useEffect(() => {
-        if (restoreQuizsDataFromLocalStorage()?.countAnwser < restoreQuizsDataFromLocalStorage()?.data?.length) {
+        if (restoreQuizsDataFromLocalStorage()?.countAnswer < restoreQuizsDataFromLocalStorage()?.data?.length) {
             setQuizsData(restoreQuizsDataFromLocalStorage());
             setIsComfirm(true);
         }
@@ -26,22 +27,25 @@ function DataQuizsProvider({ children }) {
         saveQuizsDataArrayToLocalStorage(quizsDataArray);
     }, [quizsDataArray]);
 
+    //add end_time
     useEffect(() => {
-        if (quizsData?.countAnwser === quizsData?.data?.length && quizsData?.countAnwser > 0) {
+        if (quizsData?.countAnswer === quizsData?.data?.length && quizsData?.countAnswer > 0) {
             const end_time = new Date();
             setQuizsData((prevState) => ({
                 ...prevState,
                 end_time,
             }));
         }
-    }, [quizsData?.countAnwser]);
+    }, [quizsData?.countAnswer]);
+    // add quizsdata into array
     useEffect(() => {
-        if (quizsData?.countAnwser === quizsData?.data?.length && quizsData?.countAnwser > 0 && quizsData.end_time) {
+        if (quizsData?.countAnswer === quizsData?.data?.length && quizsData?.countAnswer > 0 && quizsData.end_time) {
             setQuizsDataArray((preArray) => [quizsData, ...preArray]);
+            setIsComfirm(false);
         }
     }, [quizsData]);
+
     const getNewTestService = async () => {
-        setQuizsData({ data: [] });
         try {
             const res = await axiosConfig.get('/api.php?amount=5');
             return res;
@@ -58,7 +62,7 @@ function DataQuizsProvider({ children }) {
             setQuizsData({
                 data: result?.data?.results,
                 start_time: startTime,
-                countAnwser: 0,
+                countAnswer: 0,
                 countCorrect: 0,
             });
         }
@@ -80,17 +84,24 @@ function DataQuizsProvider({ children }) {
             console.error('Error saving quizsData to localStorage:', error);
         }
     };
+    const resetQuizsData = () => {
+        setQuizsData({
+            data: [],
+            countAnswer: 0,
+            countCorrect: 0,
+        });
+    };
 
     function restoreQuizsDataFromLocalStorage() {
         try {
             const serializedData = localStorage.getItem('quizsData');
             if (serializedData === null) {
-                return { data: [], countAnwser: 0, countCorrect: 0 };
+                return { data: [], countAnswer: 0, countCorrect: 0 };
             }
             return JSON.parse(serializedData);
         } catch (error) {
             console.error('Error restoring quizsData from localStorage:', error);
-            return { data: [], countAnwser: 0, countCorrect: 0 };
+            return { data: [], countAnswer: 0, countCorrect: 0 };
         }
     }
 
@@ -107,19 +118,20 @@ function DataQuizsProvider({ children }) {
         }
     }
 
-    async function updateQuestionById(index, userAnwser) {
-        quizsData.data[index].user_answer = userAnwser;
+    async function updateQuestionById(index, userAnswer) {
+        quizsData.data[index].user_answer = userAnswer;
 
         setQuizsData((prevState) => ({
             ...prevState,
-            countAnwser: prevState.countAnwser + 1,
+            countAnswer: prevState.countAnswer + 1,
             countCorrect:
-                userAnwser === prevState.data[index].correct_answer
+                userAnswer === prevState.data[index].correct_answer
                     ? prevState.countCorrect + 1
                     : prevState.countCorrect,
         }));
     }
-    function resetComfirm() {
+    function resetComfirm(isTrue = true) {
+        if (isTrue === true) resetQuizsData();
         setIsComfirm(false);
     }
     const contextValue = {
@@ -128,6 +140,9 @@ function DataQuizsProvider({ children }) {
         addQuizsData,
         updateQuestionById,
         resetComfirm,
+        resetQuizsData,
+        restoreQuizsDataFromLocalStorage,
+        restoreQuizsDataArrayFromLocalStorage,
     };
 
     return <DataQuizsContext.Provider value={contextValue}>{children}</DataQuizsContext.Provider>;
