@@ -1,8 +1,8 @@
 import React from 'react';
 import Lottie from 'react-lottie';
-import animationData from '../../assets/online-test.json';
+import animationData from '../../assets/comfirm2.json';
 
-export default function OnlineTestElement({ width = 130, height = 130 }) {
+export default function ComfirmElement({ width = 130, height = 130 }) {
     const defaultOptions = {
         loop: true,
         autoplay: true,

@@ -6,6 +6,7 @@ import { MultichoiceQuestion } from '../components/question_card/multichoiceQues
 import { DataQuizsContext } from '../store/DataQuizsContext';
 import { createAnswers } from '../utils/createAnswers';
 import { Link } from 'react-router-dom';
+import { getDuration } from '../utils/getDuration';
 
 function TestLayout() {
     const context = useContext(DataQuizsContext);
@@ -19,24 +20,24 @@ function TestLayout() {
     };
 
     useEffect(() => {
-        if (context.quizsDatas?.data?.length !== 0) {
+        if (context.quizsData?.data?.length !== 0) {
             setStatusLoading(false);
-            console.log(context.quizsDatas);
+            console.log(context.quizsData);
         }
-    }, [context?.quizsDatas?.data]);
+    }, [context?.quizsData?.data]);
 
     useEffect(() => {
-        if (context.quizsDatas?.data?.length !== 0) {
+        if (context.quizsData?.data?.length !== 0) {
             const answers = createAnswers(
-                context.quizsDatas?.data[id]?.incorrect_answers,
-                context.quizsDatas?.data[id]?.correct_answer,
+                context.quizsData?.data[id]?.incorrect_answers,
+                context.quizsData?.data[id]?.correct_answer,
             );
             setAnswers(answers);
         }
-    }, [id, context.quizsDatas?.data]);
+    }, [id, context.quizsData?.data]);
 
     useEffect(() => {
-        if (id + 1 > context.quizsDatas?.data?.length && context.quizsDatas?.data?.length !== 0) {
+        if (id + 1 > context.quizsData?.data?.length && context.quizsData?.data?.length !== 0) {
             setIsFinal(true);
         }
     }, [id]);
@@ -55,8 +56,14 @@ function TestLayout() {
                                     <div className="flex flex-col space-y-16 pt-10">
                                         <div>
                                             <h1 className="text-3xl font-medium mb-4">Kết quả</h1>
-                                            <p className="text-8xl">
-                                                {`${context.quizsDatas?.countCorrect} / ${context.quizsDatas?.data.length}`}
+                                            <p className="text-3xl">
+                                                {`${context.quizsData?.countCorrect} / ${context.quizsData?.data.length}`}
+                                            </p>
+                                            <p className="text-3xl">
+                                                {`${getDuration(
+                                                    context.quizsData?.start_time,
+                                                    context.quizsData?.end_time,
+                                                )}`}
                                             </p>
                                         </div>
                                         <Link to={'/'} className="w-fit px-8 py-3 border border-gray-300 rounded-md">
@@ -71,11 +78,11 @@ function TestLayout() {
                                 <MultichoiceQuestion
                                     id={id}
                                     key={id}
-                                    question={context.quizsDatas?.data[id]?.question}
-                                    userAnswer={context.quizsDatas?.data[id]?.userAnswer}
+                                    question={context.quizsData?.data[id]?.question}
+                                    userAnswer={context.quizsData?.data[id]?.userAnswer}
                                     answers={answers}
                                     updateNumberCorrect={undefined}
-                                    title={`Question ${1 + id}/${context.quizsDatas?.data.length}`}
+                                    title={`Question ${1 + id}/${context.quizsData?.data.length}`}
                                     next={next}
                                 />
                             )}
