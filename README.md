@@ -1,3 +1,4 @@
+## Trong bài này em có sử dụng localstorage để lưu trữ thông tin của bài quiz đã làm và đang làm
 # Giao diện các trang
 
 *Giao diện trang Home*
