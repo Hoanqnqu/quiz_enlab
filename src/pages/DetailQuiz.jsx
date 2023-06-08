@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
+import { Link, useParams, Navigate } from 'react-router-dom';
 import { MultichoiceQuestion } from '../components/question_card/multichoiceQuestion';
-import { Link ,useParams, Navigate} from 'react-router-dom';
 import { DataQuizsContext } from '../store/DataQuizsContext';
 import { createAnswers } from '../utils/createAnswers';
 import { NotFoundElement } from '../components/animatedElements';

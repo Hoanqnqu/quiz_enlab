@@ -1,13 +1,10 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import QuizBumpElement from '../components/animatedElements/QuizBumpElement';
-import CongratsElement from '../components/animatedElements/congratsElement';
-import SadElement from '../components/animatedElements/sadElement';
+import { SadElement, QuizBumpElement, CongratsElement } from '../components/animatedElements';
+import { Link } from 'react-router-dom';
 import { MultichoiceQuestion } from '../components/question_card/multichoiceQuestion';
-
 import { DataQuizsContext } from '../store/DataQuizsContext';
 import { createAnswers } from '../utils/createAnswers';
-import { Link } from 'react-router-dom';
 import { getDuration } from '../utils/getDuration';
 
 function TestLayout() {
@@ -26,7 +23,6 @@ function TestLayout() {
             context?.restoreQuizsDataFromLocalStorage()?.data.length ===
                 context?.restoreQuizsDataFromLocalStorage()?.countAnswer
         ) {
-        
             context.addQuizsData();
             setId(0);
         }
