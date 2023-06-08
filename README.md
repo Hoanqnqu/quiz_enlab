@@ -6,7 +6,8 @@
 ![image](https://github.com/Hoanqnqu/quiz_enlab/assets/94093871/5d6413e1-83fc-44b9-8d17-08f2cf11b419)
 *Giao diện trang Quiz*
 ![image](https://github.com/Hoanqnqu/quiz_enlab/assets/94093871/cb5486b1-52bd-43b8-9fdf-d172c3431931)
-![image](https://github.com/Hoanqnqu/quiz_enlab/assets/94093871/1f303551-b438-4210-8f42-04490c38987e)
+![image](https://github.com/Hoanqnqu/quiz_enlab/assets/94093871/437b3d60-ed64-4e92-976b-4a01a539fdcb)
+
 
 *Giao diện trang Result*
 ![image](https://github.com/Hoanqnqu/quiz_enlab/assets/94093871/3368f5a5-ec7e-48fc-bdac-21c483a5f77f)
