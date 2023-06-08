@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { path } from './utils/contain';
-import { Home, History, Quiz,DetailQuiz } from './pages';
+import { Home, History, Quiz, DetailQuiz } from './pages';
 import { DataQuizsProvider } from './store/DataQuizsContext';
 
 function App() {
@@ -12,7 +12,6 @@ function App() {
                         <Route path={path.HOME} element={<Home />} />
                         <Route path={path.HISTORY} element={<History />} />
                         <Route path={path.HISTORY_DETAIL} element={<DetailQuiz />} />
-
                         <Route path={path.QUIZ} element={<Quiz />} />
                     </Routes>
                 </BrowserRouter>

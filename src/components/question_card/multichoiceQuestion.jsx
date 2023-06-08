@@ -7,10 +7,7 @@ import { PrimaryButton } from '../button';
 import { DataQuizsContext } from '../../store/DataQuizsContext';
 
 function MultichoiceQuestion({ title = 'Full text question', question, answers, id, userAnswer, next }) {
-
     const [chosenIndex, setChosenIndex] = useState(-1);
- 
-
     const [checked, setChecked] = useState(false);
     const context = useContext(DataQuizsContext);
     useEffect(() => {

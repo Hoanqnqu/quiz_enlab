@@ -6,8 +6,8 @@ import ComfirmElement from '../components/animatedElements/comfirmElement';
 
 const History = () => {
     const context = useContext(DataQuizsContext);
-    const [quizsDataArray, setQuizsDataArray] = useState(context.restoreQuizsDataArrayFromLocalStorage());
-    if (quizsDataArray.length == 0)
+    const [quizDataArray, setQuizDataArray] = useState(context.restoreQuizDataArrayFromLocalStorage());
+    if (quizDataArray.length == 0)
         return (
             <div className="h-screen w-screen flex flex-col items-center mt-20">
                 <h1 className="text-6xl font-semibold text-zinc-800">Sipo Quiz</h1>
@@ -28,8 +28,8 @@ const History = () => {
             </Link>
             <div className="flex flex-col flex-wrap justify-around items-center  gap-y-10 p-10  border rounded-2xl border-gray-200 w-full">
                 <div className="flex flex-col md:grid grid_quiz max-sm:justify-between justify-center gap-3 w-full">
-                    {quizsDataArray?.map((quizsData, index) => (
-                        <QuizItem quizsData={quizsData} index={index} key={index} />
+                    {quizDataArray?.map((quizData, index) => (
+                        <QuizItem quizData={quizData} index={index} key={index} />
                     ))}
                 </div>
             </div>

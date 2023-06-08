@@ -11,7 +11,7 @@ function TestLayout() {
     const context = useContext(DataQuizsContext);
     const [isFinal, setIsFinal] = useState(false);
     const [statusLoading, setStatusLoading] = useState(true);
-    const [id, setId] = useState(context?.restoreQuizsDataFromLocalStorage()?.countAnswer || 0);
+    const [id, setId] = useState(context?.restoreQuizDataFromLocalStorage()?.countAnswer || 0);
     const [answers, setAnswers] = useState([]);
 
     const next = () => {
@@ -19,33 +19,33 @@ function TestLayout() {
     };
     useEffect(() => {
         if (
-            context?.restoreQuizsDataFromLocalStorage()?.data?.length === 0 ||
-            context?.restoreQuizsDataFromLocalStorage()?.data.length ===
-                context?.restoreQuizsDataFromLocalStorage()?.countAnswer
+            context?.restoreQuizDataFromLocalStorage()?.data?.length === 0 ||
+            context?.restoreQuizDataFromLocalStorage()?.data.length ===
+                context?.restoreQuizDataFromLocalStorage()?.countAnswer
         ) {
-            context.addQuizsData();
+            context.addQuizData();
             setId(0);
         }
     }, []);
 
     useEffect(() => {
-        if (context.quizsData?.data?.length !== 0) {
+        if (context.quizData?.data?.length !== 0) {
             setStatusLoading(false);
         }
-    }, [context?.quizsData?.data]);
+    }, [context?.quizData?.data]);
 
     useEffect(() => {
-        if (context.quizsData?.data?.length !== 0) {
+        if (context.quizData?.data?.length !== 0) {
             const answers = createAnswers(
-                context.quizsData?.data[id]?.incorrect_answers,
-                context.quizsData?.data[id]?.correct_answer,
+                context.quizData?.data[id]?.incorrect_answers,
+                context.quizData?.data[id]?.correct_answer,
             );
             setAnswers(answers);
         }
-    }, [id, context.quizsData?.data]);
+    }, [id, context.quizData?.data]);
 
     useEffect(() => {
-        if (id + 1 > context.quizsData?.data?.length && context.quizsData?.data?.length !== 0) {
+        if (id + 1 > context.quizData?.data?.length && context.quizData?.data?.length !== 0) {
             setIsFinal(true);
         }
     }, [id]);
@@ -62,7 +62,7 @@ function TestLayout() {
                             {isFinal ? (
                                 <div className="flex flex-row flex-wrap justify-around items-center  gap-y-10">
                                     <div className="rounded-full">
-                                        {context.quizsData?.countCorrect / context.quizsData?.data.length >= 0.5 ? (
+                                        {context.quizData?.countCorrect / context.quizData?.data.length >= 0.5 ? (
                                             <CongratsElement width={300} height={300}></CongratsElement>
                                         ) : (
                                             <SadElement width={300} height={300}></SadElement>
@@ -70,23 +70,23 @@ function TestLayout() {
                                     </div>
                                     <div className="max-w-[300px]">
                                         <h2 className="text-4xl text-center font-bold mb-6 ">
-                                            {context.quizsData?.countCorrect / context.quizsData?.data.length >= 0.5
+                                            {context.quizData?.countCorrect / context.quizData?.data.length >= 0.5
                                                 ? 'Congratulations!!'
                                                 : 'Completed!'}
                                         </h2>
                                         <p className="text-2xl text-center text-gray-800">
-                                            {`${context.quizsData?.countCorrect} / ${
-                                                context.quizsData?.data.length
+                                            {`${context.quizData?.countCorrect} / ${
+                                                context.quizData?.data.length
                                             } correct answer in ${getDuration(
-                                                context.quizsData?.start_time,
-                                                context.quizsData?.end_time,
+                                                context.quizData?.start_time,
+                                                context.quizData?.end_time,
                                             )}`}
                                         </p>
                                         <div className="mt-14 flex flex-row justify-center space-x-4">
                                             <Link
                                                 to={'/'}
                                                 onClick={() => {
-                                                    context.resetQuizsData();
+                                                    context.resetQuizData();
                                                 }}
                                                 className="w-fit px-8 py-3 border border-gray-300 rounded-md hover:bg-zinc-100"
                                             >
@@ -108,10 +108,10 @@ function TestLayout() {
                                 <MultichoiceQuestion
                                     id={id}
                                     key={id}
-                                    question={context.quizsData?.data[id]?.question}
+                                    question={context.quizData?.data[id]?.question}
                                     answers={answers}
                                     updateNumberCorrect={undefined}
-                                    title={`Question ${1 + id}/${context.quizsData?.data.length}`}
+                                    title={`Question ${1 + id}/${context.quizData?.data.length}`}
                                     next={next}
                                 />
                             )}

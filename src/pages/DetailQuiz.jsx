@@ -8,13 +8,13 @@ import { NotFoundElement } from '../components/animatedElements';
 
 const DetailQuiz = () => {
     const context = useContext(DataQuizsContext);
-    const [quizsDataArray, setQuizsDataArray] = useState(context.restoreQuizsDataArrayFromLocalStorage());
+    const [quizDataArray, setQuizDataArray] = useState(context.restoreQuizDataArrayFromLocalStorage());
     const [id, setId] = useState(0);
     const { id_quiz } = useParams();
     const next = () => {
         setId((prevId) => prevId + 1);
     };
-    if (0 > id_quiz || id_quiz >= quizsDataArray.length)
+    if (0 > id_quiz || id_quiz >= quizDataArray.length)
         return (
             <div className="h-screen w-screen flex flex-col items-center mt-20">
                 <NotFoundElement width={500} height={500}></NotFoundElement>
@@ -23,7 +23,7 @@ const DetailQuiz = () => {
                 </Link>
             </div>
         );
-    else if (id === quizsDataArray[id_quiz].data.length) {
+    else if (id === quizDataArray[id_quiz].data.length) {
         return <Navigate to={'/history'} replace={true} />;
     } else
         return (
@@ -34,14 +34,13 @@ const DetailQuiz = () => {
                         <MultichoiceQuestion
                             id={id}
                             key={id}
-                            question={quizsDataArray[id_quiz].data[id]?.question}
-                            userAnswer={quizsDataArray[id_quiz].data[id]?.user_answer}
+                            question={quizDataArray[id_quiz].data[id]?.question}
+                            userAnswer={quizDataArray[id_quiz].data[id]?.user_answer}
                             answers={createAnswers(
-                                quizsDataArray[id_quiz].data[id].incorrect_answers,
-                                quizsDataArray[id_quiz].data[id].correct_answer,
+                                quizDataArray[id_quiz].data[id].incorrect_answers,
+                                quizDataArray[id_quiz].data[id].correct_answer,
                             )}
-                            updateNumberCorrect={undefined}
-                            title={`Question ${1 + id}/${quizsDataArray[id_quiz].data.length}`}
+                            title={`Question ${1 + id}/${quizDataArray[id_quiz].data.length}`}
                             next={next}
                         />
                     </div>

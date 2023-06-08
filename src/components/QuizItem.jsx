@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import moment from 'moment/moment';
 
 import { getDuration } from '../utils/getDuration';
-const QuizItem = ({quizsData, index}) => {
+const QuizItem = ({ quizData, index }) => {
     return (
         <motion.button
             key={1}
@@ -15,15 +15,14 @@ const QuizItem = ({quizsData, index}) => {
         >
             <Link to={`/history/${index}`} className="flex justify-between">
                 <div className="flex flex-col justify-between">
-                    <h4 className="text-3xl font-bold">Quiz {index +1}</h4>
-                    <p className="text-center text-xl font-bold text-gray-600 mt-2">{quizsData.countCorrect}/{quizsData.countAnswer}</p>
+                    <h4 className="text-3xl font-bold">Quiz {index + 1}</h4>
+                    <p className="text-center text-xl font-bold text-gray-600 mt-2">
+                        {quizData.countCorrect}/{quizData.countAnswer}
+                    </p>
                 </div>
                 <div className="flex flex-col justify-between">
-                    <p className="text-xs text-gray-600 text-right">{moment(quizsData.end_time).fromNow()}</p>
-                    <p className="text-right">{getDuration(
-                                                quizsData.start_time,
-                                                quizsData.end_time,
-                                            )}</p>
+                    <p className="text-xs text-gray-600 text-right">{moment(quizData.end_time).fromNow()}</p>
+                    <p className="text-right">{getDuration(quizData.start_time, quizData.end_time)}</p>
                 </div>
             </Link>
         </motion.button>
