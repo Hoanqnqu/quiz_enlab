@@ -1,1 +1,1 @@
-export * from "./primaryButton"
+export { default as PrimaryButton } from './primaryButton';

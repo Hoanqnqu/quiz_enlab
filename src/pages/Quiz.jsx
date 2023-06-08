@@ -26,7 +26,7 @@ function TestLayout() {
             context?.restoreQuizsDataFromLocalStorage()?.data.length ===
                 context?.restoreQuizsDataFromLocalStorage()?.countAnswer
         ) {
-            console.log(context?.restoreQuizsDataFromLocalStorage()?.data, context?.quizsData?.data);
+        
             context.addQuizsData();
             setId(0);
         }

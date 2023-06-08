@@ -37,17 +37,20 @@ function DataQuizsProvider({ children }) {
             }));
         }
     }, [quizsData?.countAnswer]);
-    // add quizsdata into array
+
+    // add quizsdata into array with a maximum of 10 elements
     useEffect(() => {
         if (quizsData?.countAnswer === quizsData?.data?.length && quizsData?.countAnswer > 0 && quizsData.end_time) {
-            setQuizsDataArray((preArray) => [quizsData, ...preArray]);
+            setQuizsDataArray((prevArray) => {
+                const newArray = [quizsData, ...prevArray.slice(0, import.meta.env.VITE_REACT_APP_LIMIT_QUIZ -1)];
+                return newArray;
+            });
             setIsComfirm(false);
         }
     }, [quizsData]);
-
     const getNewTestService = async () => {
         try {
-            const res = await axiosConfig.get('/api.php?amount=5');
+            const res = await axiosConfig.get(`/api.php?amount=${import.meta.env.VITE_REACT_APP_LIMIT_QUESTION}`);
             return res;
         } catch (err) {
             console.log(err);

@@ -1,7 +1,6 @@
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import StudentsElement from '../components/animatedElements/studentsElement';
-import ComfirmElement from '../components/animatedElements/comfirmElement';
-import { useContext, useEffect, useState } from 'react';
+import { StudentsElement, ComfirmElement } from '../components/animatedElements';
 import { DataQuizsContext } from '../store/DataQuizsContext';
 
 const Home = () => {
@@ -48,10 +47,15 @@ const Home = () => {
                         <div className="mt-20 flex flex-row justify-center space-x-4">
                             <Link
                                 to="/quiz"
-                                // onClick={() => context.addQuizsData()}
                                 className="w-fit px-8 py-3 border border-gray-300 rounded-md hover:bg-zinc-100"
                             >
                                 Start Quiz!
+                            </Link>
+                            <Link
+                                to="/history"
+                                className="w-fit px-8 py-3 border border-gray-300 rounded-md hover:bg-zinc-100"
+                            >
+                                History
                             </Link>
                         </div>
                     </div>

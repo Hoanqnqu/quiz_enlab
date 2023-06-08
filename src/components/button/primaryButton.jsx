@@ -20,4 +20,4 @@ function PrimaryButton({ onClick, animate, children }) {
     );
 }
 
-export { PrimaryButton };
+export default PrimaryButton;

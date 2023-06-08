@@ -2,14 +2,14 @@ import React, { useEffect, useState, useContext } from 'react';
 import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { motion } from 'framer-motion';
-import { ToastContainerCustom, toast } from '../../utils/ToastCustom';
-import { PrimaryButton } from '../button/index';
+import { ToastContainerCustom, toast } from '../ToastCustom';
+import { PrimaryButton } from '../button';
 import { DataQuizsContext } from '../../store/DataQuizsContext';
 
 function MultichoiceQuestion({ title = 'Full text question', question, answers, id, userAnswer, next }) {
-    console.log(answers);
+
     const [chosenIndex, setChosenIndex] = useState(-1);
-    console.log(answers, chosenIndex);
+ 
 
     const [checked, setChecked] = useState(false);
     const context = useContext(DataQuizsContext);

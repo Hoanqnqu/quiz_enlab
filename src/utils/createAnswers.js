@@ -1,5 +1,5 @@
 export const createAnswers = (incorrectAnswers, correctAnswer) => {
-    console.log('rerender nè');
+    
     const shuffledAnswers = [
         ...(incorrectAnswers?.map((item) => ({ text: item, isSolution: false })) || []),
         { text: correctAnswer, isSolution: true },
