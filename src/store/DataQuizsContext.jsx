@@ -48,6 +48,8 @@ function DataQuizsProvider({ children }) {
             setIsComfirm(false);
         }
     }, [quizData]);
+
+    
     const getNewTestService = async () => {
         try {
             const res = await axiosConfig.get(`/api.php?amount=${import.meta.env.VITE_REACT_APP_LIMIT_QUESTION}`);

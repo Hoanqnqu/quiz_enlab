@@ -1,6 +1,7 @@
 export const path = {
-    HOME: '/*',
+    HOME: '/',
     HISTORY_DETAIL: 'history/:id_quiz',
     HISTORY:'history',
-    QUIZ:'quiz'
+    QUIZ:'quiz',
+    ERROR:'/*'
 };
